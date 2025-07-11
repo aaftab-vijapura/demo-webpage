@@ -60,11 +60,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
             $_SESSION['user_id']   = $row['id'];
             $_SESSION['user_name'] = $row['name'];
 
+
+
             $recordMessage = '✅ Login successful. Welcome, ' . htmlspecialchars($row['name']) . '!';
             $recordClass   = 'success';
             // 👉 redirect if you have a dashboard:
             // header('Location: dashboard.php'); exit();
-        } else {
+
+
+    // Successful login
+    header('Location: homepage.html');
+    exit(); // 🔁 very important to stop further code execution
+}
+        } 
+        
+        else {
             $recordMessage = 'Incorrect password.';
             $recordClass   = 'error';
         }
@@ -75,6 +85,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
     $stmt->close();
     $conn->close();
+   {
 }
 
 /* -------------  END OF LOGIN SCRIPT ------------- */
@@ -179,7 +190,7 @@ OUTPUT_HTML:
     <div class="main-box1">
         <h1>Login Form</h1>
         <div class="box-1">
-            <form method="post" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+            <form method="post" action="">
                 <!-- <label for="name">Name:</label><br>
                 <input type="text" id="name" name="name" placeholder="Enter Your Name"
                        value="<?php echo htmlspecialchars($name); ?>"><br>
