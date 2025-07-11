@@ -83,7 +83,11 @@ OUTPUT_HTML:
     <title>Login Form test</title>
     <style>
         /* =========  ORIGINAL CSS (unchanged) ========= */
-        *{margin:0;padding:0;box-sizing:border-box;}
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
         
         body{
             background-image: url(sq.jpg);
