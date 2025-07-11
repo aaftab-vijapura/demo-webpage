@@ -87,7 +87,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $stmt->close();
 }
 
-     if (isset($conn) && $stmt instanceof mysqli_conn) {
+     if (isset($conn) && $stmt instanceof mysqli_stmt) {
     $conn->close();
 }
    {
@@ -101,7 +101,7 @@ OUTPUT_HTML:
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login Form</title>
+    <title>Login</title>
     <style>
         /* =========  ORIGINAL CSS (unchanged) ========= */
         *{margin:0;padding:0;box-sizing:border-box;}
