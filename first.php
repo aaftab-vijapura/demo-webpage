@@ -70,16 +70,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $stmt?->close();
     $conn?->close();
 }
-<<<<<<< HEAD
-
-     if (isset($conn) && $stmt instanceof mysqli_stmt) {
-    $conn->close();
-}
-   {
-}
-
-=======
->>>>>>> 31e2cdffb749092133499a25f21a9c39a0b298db
 /* -------------  END OF LOGIN SCRIPT ------------- */
 
 /* Everything below is your *unchanged* UI  */
