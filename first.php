@@ -4,39 +4,34 @@ session_start();
 
 /* ───── 1.  Initialise variables & error holders ───── */
 $recordMessage = $recordClass = '';
-$name = $email = $pass = '';
-$nameError = $emailError = $passError = '';
+$email = $pass = '';
+$emailError = $passError = '';
 
 /* ───── 2.  Handle form post ───── */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
-    /* 2‑a  Trim & sanitise helpers */
-    function input_data($data)
-    {
+    /* 2‑a  Trim & sanitise helper */
+    function input_data($data) {
         return htmlspecialchars(stripslashes(trim($data)));
     }
 
     /* 2‑b  Read fields */
-    $email   = input_data($_POST['email']  ?? '');
-    $pass    =           $_POST['password'] ?? '';  // still present in UI but not used for login
+    $email = input_data($_POST['email']  ?? '');
+    $pass  =              $_POST['password'] ?? '';
 
-    /* 2‑c  Field‑level validation (UI unchanged so we keep the same messages) */
-    if ($email === '') $emailError = '*Email is required';
-    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) $emailError = 'Invalid email format';
+    /* 2‑c  Field‑level validation */
+    if ($email === '')                    $emailError = '*Email is required';
+    elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
+                                          $emailError = 'Invalid email format';
 
-    if ($pass === '')  $passError  = '*Password is required';
-    elseif (strlen($pass) < 6)      $passError  = 'Password must be at least 6 characters long';
+    if ($pass === '')                     $passError  = '*Password is required';
+    elseif (strlen($pass) < 6)            $passError  = 'Password must be at least 6 characters long';
 
-    /* 2‑d  Stop early if there were validation errors shown above      */
+    /* 2‑d  Stop early if validation failed */
     if ($emailError || $passError) goto OUTPUT_HTML;
 
     /* 2‑e  DB connection */
-    $servername = 'localhost';
-    $username   = 'root';
-    $password   = '';          // your MySQL password
-    $dbname     = 'user_data'; // database containing table `myform`
-
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli('localhost', 'root', '', 'user_data');
     if ($conn->connect_errno) {
         $recordMessage = 'Database connection failed: ' . $conn->connect_error;
         $recordClass   = 'error';
@@ -44,48 +39,38 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     }
 
     /* 2‑f  Query for matching e‑mail */
-    $stmt = $conn->prepare('SELECT id, name, password FROM myform WHERE email = ? LIMIT 1');
+    $stmt = $conn->prepare(
+        'SELECT id, name, password FROM myform WHERE email = ? LIMIT 1'
+    );
     $stmt->bind_param('s', $email);
     $stmt->execute();
     $result = $stmt->get_result();
 
     if ($result && $row = $result->fetch_assoc()) {
-        /* 2‑g  Password check   (⚠  plain‑text comparison because your existing table stores unhashed passwords)
-           -----------------------------------------------------------------
-           !! RECOMMENDED: switch to password_hash(…) when you add a proper
-             registration page again and then verify with password_verify().
-           ----------------------------------------------------------------- */
+        /* 2‑g  Password check  (⚠ plain‑text; switch to password_hash / password_verify) */
         if ($pass === $row['password']) {
-            /*  Successful login  */
+            /* Successful login */
             $_SESSION['user_id']   = $row['id'];
             $_SESSION['user_name'] = $row['name'];
 
-
-
-            $recordMessage = '✅ Login successful. Welcome, ' . htmlspecialchars($row['name']) . '!';
-            $recordClass   = 'success';
-            // 👉 redirect if you have a dashboard:
-            // header('Location: dashboard.php'); exit();
-
-
-    // Successful login
-    header('Location: homepage.html');
-    exit(); // 🔁 very important to stop further code execution
-}
-        } 
-        
-        else {
+            header('Location: homepage.html');
+            exit;                     // ⬅️ stop further execution
+        } else {
+            /* Email exists but password wrong */
             $recordMessage = 'Incorrect password.';
             $recordClass   = 'error';
         }
     } else {
+        /* No matching e‑mail at all */
         $recordMessage = 'No account found for that e‑mail.';
         $recordClass   = 'error';
     }
 
-    if (isset($stmt) && $stmt instanceof mysqli_stmt) {
-    $stmt->close();
+    /* 2‑h  House‑keeping */
+    $stmt?->close();
+    $conn?->close();
 }
+<<<<<<< HEAD
 
      if (isset($conn) && $stmt instanceof mysqli_stmt) {
     $conn->close();
@@ -93,18 +78,26 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
    {
 }
 
+=======
+>>>>>>> 31e2cdffb749092133499a25f21a9c39a0b298db
 /* -------------  END OF LOGIN SCRIPT ------------- */
 
 /* Everything below is your *unchanged* UI  */
 OUTPUT_HTML:
 ?>
+
+
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login</title>
+    <title>Login Form test</title>
     <style>
         /* =========  ORIGINAL CSS (unchanged) ========= */
-        *{margin:0;padding:0;box-sizing:border-box;}
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
         
         body{
             background-image: url(sq.jpg);
