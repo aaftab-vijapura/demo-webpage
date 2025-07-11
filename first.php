@@ -70,6 +70,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $stmt?->close();
     $conn?->close();
 }
+
+     if (isset($conn) && $stmt instanceof mysqli_stmt) {
+    $conn->close();
+}
+   {
+}
+
 /* -------------  END OF LOGIN SCRIPT ------------- */
 
 /* Everything below is your *unchanged* UI  */
@@ -90,7 +97,7 @@ OUTPUT_HTML:
         }
         
         body{
-            background-image: url(sq.jpg);
+            background-image: url(sx.jpg);
             background-size: cover; 
             background-position: center;
             background-repeat: no-repeat;
