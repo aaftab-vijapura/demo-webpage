@@ -80,7 +80,7 @@ OUTPUT_HTML:
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Login Form</title>
+    <title>Login Form test</title>
     <style>
         /* =========  ORIGINAL CSS (unchanged) ========= */
         *{margin:0;padding:0;box-sizing:border-box;}
