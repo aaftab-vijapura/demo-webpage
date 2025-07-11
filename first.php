@@ -83,8 +83,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
         $recordClass   = 'error';
     }
 
+    if (isset($stmt) && $stmt instanceof mysqli_stmt) {
     $stmt->close();
+}
+
+     if (isset($conn) && $stmt instanceof mysqli_conn) {
     $conn->close();
+}
    {
 }
 
@@ -102,7 +107,7 @@ OUTPUT_HTML:
         *{margin:0;padding:0;box-sizing:border-box;}
         
         body{
-            background-image: url(st.jpg);
+            background-image: url(sq.jpg);
             background-size: cover; 
             background-position: center;
             background-repeat: no-repeat;
@@ -116,17 +121,18 @@ OUTPUT_HTML:
         .main-box1{
             width:500px;
             height:400px;
-            background-color: white transparent;
+            background-color: rgba(0, 0, 0, 0.7);
             border-radius:20px;
             margin-top:260px;
             border: 3px solid white;
+            color:white
         }
         h1{
             text-align:center;
             text-decoration:underline;
             margin-top:40px;
             font-family:'Gill Sans','Gill Sans MT',Calibri,'Trebuchet MS',sans-serif;
-            color: #fff;
+            color: white;
         }
         label{
             color: white;
@@ -141,9 +147,7 @@ OUTPUT_HTML:
             background-color: transparent;
             box-shadow:inset 0 0 92px 13px rgba(0,0,0,.1);
             border: 1px solid white;
-        }
-        ::placeholder{
-            color: white;
+            color:white;
         }
         .box-1{
             margin-top:23px;
