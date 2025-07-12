@@ -17,7 +17,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 
     /* 2‑b  Read fields */
     $email = input_data($_POST['email']  ?? '');
-    $pass  =              $_POST['password'] ?? '';
+    $pass  = $_POST['password'] ?? '';
 
     /* 2‑c  Field‑level validation */
     if ($email === '')                    $emailError = '*Email is required';
@@ -93,13 +93,25 @@ OUTPUT_HTML:
             padding:0;
             box-sizing:border-box;
         }
+
+        :root {
+             --clr-primary: #6c5ce7;
+            --clr-secondary: #00b894;
+            --clr-bg: #f1f2f6;
+            --clr-text: #2d3436;
+            --radius: 0.75rem;
+            --shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+            --transition: 200ms ease;
+            font-size: 16px;
+            font-family: "Poppins", sans-serif;
+            color: var(--clr-text);
+            }
         
         body{
-            background-image: url(sn.jpg);
-            background-size: cover; 
-            background-position: center;
-            background-repeat: no-repeat;
-            height: 795px;
+            min-height: 100vh;
+            background: linear-gradient(135deg, var(--clr-primary), var(--clr-secondary));
+            padding: 1rem;
+            
         }
         .container{
             display:flex;
@@ -108,8 +120,8 @@ OUTPUT_HTML:
         }
         .main-box1{
             width:500px;
-            height:400px;
-            background-color: rgba(0, 0, 0, 0.7);
+            height:430px;
+            background-color: transparent;
             border-radius:20px;
             margin-top:260px;
             border: 3px solid white;
@@ -125,9 +137,12 @@ OUTPUT_HTML:
         label{
             color: white;
         }
+        ::placeholder{
+            color: white;
+        }
         input{
             width:350px;
-            height:30px;
+            height:40px;
             margin-top:10px;
             border-radius:20px;
             padding:0 12px;
@@ -142,16 +157,24 @@ OUTPUT_HTML:
             margin-left:70px;
             font-family:'Gill Sans','Gill Sans MT',Calibri,'Trebuchet MS',sans-serif;
         }
-        button{
-            width:350px;
-            height:30px;
-            background-color: transparent;
-            border: 1px solid white;
-            border-radius:50px;
-            font-family:'Gill Sans','Gill Sans MT',Calibri,'Trebuchet MS',sans-serif;
-            font-size:medium; 
-            margin-top: 25px;
-            color: white;
+       button[type="submit"] {
+            background: var(--clr-primary);
+            border: none;
+            color: #fff;
+            padding: 0.9rem;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 350px;
+            height: 40px;
+            margin-top: 10px;
+        }
+
+        button[type="submit"]:hover {
+            background: var(--clr-secondary);
+        
         }
         .message{
             text-align:center;
@@ -175,6 +198,26 @@ OUTPUT_HTML:
             text-align:center;
             margin-top:20px;
         }
+
+        .meta {
+            text-align: center;
+            font-size: 0.875rem;
+            color: white;
+            margin-top: 10px;
+            margin-right: 210px;
+        }
+
+        .meta a {
+            color: white;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            transition: var(--transition);
+        }
+
+        .meta a:hover {
+            border-color: white;
+        }
+
     </style>
 </head>
 <body>
@@ -203,6 +246,11 @@ OUTPUT_HTML:
 
               
                 <button type="submit" name="submit">Submit</button><br>
+
+
+                <p class="meta">
+        Don't have an account ? <a href="index.php">Sign Up</a>
+      </p>
 
                   <?php if ($recordMessage): ?>
                     <div class="message <?php echo $recordClass; ?>"><?php echo $recordMessage; ?></div>
