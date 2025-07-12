@@ -72,9 +72,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
 }
 
      if (isset($conn) && $stmt instanceof mysqli_stmt) {
-    $conn->close();
-}
-   {
+    
 }
 
 /* -------------  END OF LOGIN SCRIPT ------------- */
@@ -97,7 +95,7 @@ OUTPUT_HTML:
         }
         
         body{
-            background-image: url(sx.jpg);
+            background-image: url(sn.jpg);
             background-size: cover; 
             background-position: center;
             background-repeat: no-repeat;
