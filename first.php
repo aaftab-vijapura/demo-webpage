@@ -20,12 +20,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $pass  = $_POST['password'] ?? '';
 
     /* 2‑c  Field‑level validation */
-    if ($email === '')                    $emailError = '*Email is required';
+    if ($email === '')                    
+        $emailError = '*Email is required';
     elseif (!filter_var($email, FILTER_VALIDATE_EMAIL))
-                                          $emailError = 'Invalid email format';
+            $emailError = 'Invalid email format';
 
-    if ($pass === '')                     $passError  = '*Password is required';
-    elseif (strlen($pass) < 6)            $passError  = 'Password must be at least 6 characters long';
+    if ($pass === '')                     
+        $passError  = '*Password is required';
+    elseif (strlen($pass) < 6)            
+        $passError  = 'Password must be at least 6 characters long';
 
     /* 2‑d  Stop early if validation failed */
     if ($emailError || $passError) goto OUTPUT_HTML;
