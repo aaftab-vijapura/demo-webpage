@@ -192,6 +192,7 @@ OUTPUT_HTML:
             display:flex;
             justify-content:start;
             font-size:15px;
+            font-weight: bold;
         }
         .output-box{
             font-family:Arial,sans-serif;
@@ -223,7 +224,7 @@ OUTPUT_HTML:
 <body>
 <div class="container">
     <div class="main-box1">
-        <h1>Login Form</h1>
+        <h1>Sing in</h1>
         <div class="box-1">
             <form method="post" action="">
                 <!-- <label for="name">Name:</label><br>

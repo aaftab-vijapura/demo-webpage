@@ -132,11 +132,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 
         .main-box1 {
             width: 500px;
-            height: 620px;
+            height: 640px;
             background-color: transparent;
             border: 2px solid white;
             border-radius: 20px;
-            margin-top: 20px;
+            margin-top: 10px;
         }
 
         h1 {
@@ -235,7 +235,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
 <body>
     <div class="container">
         <div class="main-box1">
-            <h1>Registration Form</h1>
+            <h1>Sign Up</h1>
             <div class="box-1">
                 <form method="post" action="">
                     <label for="Name">Name:</label><br>
