@@ -1,93 +1,105 @@
-<?php 
+<?php
+/* ---------- initialise ---------- */
+$recordMessage = $recordClass = '';
+$name = $email = $pass = $conpass = '';
+$nameError = $emailError = $passError = $conpassError = '';
 
-$recordMessage = "";
-$recordClass = "";
-$name = $email = $pass = $conpass = "";
-
-$nameError = $emailError = $passError = $conpassError = "";
-
-function input_data($data)
-{
-    return htmlspecialchars(stripslashes(trim($data)));
+function input_data($data) {
+    return htmlspecialchars(stripslashes(trim($data)), ENT_QUOTES, 'UTF-8');
 }
 
-if ($_SERVER['REQUEST_METHOD'] == "POST") {
+/* ---------- handle form post ---------- */
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-    // Validation
+    /* --- validation --- */
     $isValid = true;
 
+    // name
     if (empty($_POST['name'])) {
-        $nameError = "*Name is required";
-        $isValid = false;
+        $nameError = '*Name is required';
+        $isValid   = false;
     } else {
         $name = input_data($_POST['name']);
         if (!preg_match("/^[a-zA-Z0-9' ]*$/", $name)) {
-            $nameError = "Only letters and white space allowed";
-            $isValid = false;
+            $nameError = 'Only letters, numbers and spaces allowed';
+            $isValid   = false;
         }
     }
 
+    // email
     if (empty($_POST['email'])) {
-        $emailError = "*Email is required";
-        $isValid = false;
+        $emailError = '*Email is required';
+        $isValid    = false;
     } else {
         $email = input_data($_POST['email']);
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            $emailError = "Invalid email format";
-            $isValid = false;
+            $emailError = 'Invalid email format';
+            $isValid    = false;
         }
     }
 
+    // password
     if (empty($_POST['password'])) {
-        $passError = "*Password is required";
-        $isValid = false;
+        $passError = '*Password is required';
+        $isValid   = false;
     } else {
         $pass = input_data($_POST['password']);
         if (strlen($pass) < 6) {
-            $passError = "Password must be at least 6 characters long";
-            $isValid = false;
+            $passError = 'Password must be at least 6 characters';
+            $isValid   = false;
         }
     }
 
+    // confirm password
     if (empty($_POST['copass'])) {
-        $conpassError = "*Confirm Password is required";
-        $isValid = false;
+        $conpassError = '*Confirm Password is required';
+        $isValid      = false;
     } else {
         $conpass = input_data($_POST['copass']);
         if ($pass !== $conpass) {
-            $conpassError = "Passwords do not match";
-            $isValid = false;
+            $conpassError = 'Passwords do not match';
+            $isValid      = false;
         }
     }
 
-    // If all validation passed, insert into DB and redirect
+    /* --- insert into DB --- */
     if ($isValid) {
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "user_data";
+        /* 1. connection */
+        mysqli_report(MYSQLI_REPORT_ERROR | MYSQLI_REPORT_STRICT);
 
-        $conn = new mysqli($servername, $username, $password, $dbname);
+        $dbHost = '127.0.0.1';   // <<< use TCP, not the Unix socket
+        $dbUser = 'root';
+        $dbPass = '';            // set your real password here
+        $dbName = 'user_data';
 
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        try {
+            $conn = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
+            $conn->set_charset('utf8mb4');
+
+            /* 2. use a prepared statement */
+            $stmt = $conn->prepare(
+                "INSERT INTO myform (name, email, password, confirmpass) VALUES (?,?,?,?)"
+            );
+            // always hash passwords before storing
+            $hashedPass = password_hash($pass, PASSWORD_DEFAULT);
+            $stmt->bind_param('ssss', $name, $email, $hashedPass, $conpass);
+            $stmt->execute();
+
+            /* 3. success feedback + 3‑second redirect */
+            $recordMessage = 'Registration successful! Redirecting to login...';
+            $recordClass   = 'success';
+            echo '<meta http-equiv="refresh" content="3;url=http://localhost/wel_come/first.php">';
+        } catch (mysqli_sql_exception $e) {
+            $recordMessage = 'Database error: ' . $e->getMessage();
+            $recordClass   = 'error';
+        } finally {
+            if (isset($stmt) && $stmt instanceof mysqli_stmt) { $stmt->close(); }
+            if (isset($conn) && $conn instanceof mysqli)       { $conn->close(); }
         }
-
-        $query = "INSERT INTO `myform`(`name`, `email`, `password`, `confirmpass`) VALUES ('$name','$email','$pass','$conpass')";
-        if ($conn->query($query) === TRUE) {
-            // Redirect to login page after 3 seconds
-            header("Location: http://localhost/wel_come/first.php");
-            $recordMessage = "Registration successful! Redirecting to login...";
-            $recordClass = "success";
-        } else {
-            $recordMessage = "Database error: " . $conn->error;
-            $recordClass = "error";
-        }
-
-        $conn->close();
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html>
