@@ -1,5 +1,5 @@
 <?php
-/* -------------  START OF LOGIN SCRIPT ------------- */
+/* -------------  START OF LOGIN SCRIPT ------------ */
 session_start();
 
 /* ───── 1.  Initialise variables & error holders ───── */
