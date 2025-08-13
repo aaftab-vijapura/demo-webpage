@@ -74,7 +74,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['submit'])) {
     $conn?->close();
 }
 
-     if (isset($conn) && $stmt instanceof mysqli_stmt) {
+if (isset($conn) && $stmt instanceof mysqli_stmt) {
     
 }
 
@@ -98,7 +98,7 @@ OUTPUT_HTML:
         }
 
         :root {
-             --clr-primary: #6c5ce7;
+            --clr-primary: #6c5ce7;
             --clr-secondary: #00b894;
             --clr-bg: #f1f2f6;
             --clr-text: #2d3436;
@@ -160,7 +160,7 @@ OUTPUT_HTML:
             margin-left:70px;
             font-family:'Gill Sans','Gill Sans MT',Calibri,'Trebuchet MS',sans-serif;
         }
-       button[type="submit"] {
+        button[type="submit"] {
             background: var(--clr-primary);
             border: none;
             color: #fff;
@@ -232,13 +232,13 @@ OUTPUT_HTML:
             <form method="post" action="">
                 <!-- <label for="name">Name:</label><br>
                 <input type="text" id="name" name="name" placeholder="Enter Your Name"
-                       value="<?php echo htmlspecialchars($name); ?>"><br>
-                <span class="error"><?php echo $nameError; ?></span><br> -->
+                    value="<?php echo htmlspecialchars($name); ?>"><br>
+                    <span class="error"><?php echo $nameError; ?></span><br> -->
 
                 <label for="email">Email:</label><br>
                 <input type="email" id="email" name="email" placeholder="Enter Your Email"
-                       value="<?php echo htmlspecialchars($email); ?>"><br>
-                        <span class="error"><?php echo $emailError; ?></span><br>
+                    value="<?php echo htmlspecialchars($email); ?>"><br>
+                    <span class="error"><?php echo $emailError; ?></span><br>
 
                 <label for="password">Password:</label><br>
                 <input type="password" id="password" name="password" placeholder="Enter Your Password"><br>
@@ -246,17 +246,15 @@ OUTPUT_HTML:
 
                 <!-- <label for="copass">Confirm Password:</label><br>
                 <input type="password" id="copass" name="copass" placeholder="(Not required for login)">
-                <span class="error"><?php echo $conpassError; ?></span> -->
-
-              
+                <span class="error"><?php echo $conpassError; ?></span> -->               
                 <button type="submit" name="submit">Submit</button><br>
 
 
                 <p class="meta">
         Don't have an account ? <a href="index.php">Sign Up</a>
-      </p>
+        </p>
 
-                  <?php if ($recordMessage): ?>
+                    <?php if ($recordMessage): ?>
                     <div class="message <?php echo $recordClass; ?>"><?php echo $recordMessage; ?></div>
                 <?php endif; ?>
                 <br><br>
